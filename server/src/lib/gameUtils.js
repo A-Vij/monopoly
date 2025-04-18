@@ -9,7 +9,7 @@ export const handleLandedOn = async(game, playerIndex, userId) => {
     }
     if (space.property || space.station || space.utility){
         if (!space.owned) return {event: "landed-unowned-prop", space: space};
-        else if (space.owner.toString() === userId.toString()) return {event: "landed-your-prop", space: space};
+        else if (space.owner._id.toString() === userId.toString()) return {event: "landed-your-prop", space: space};
         else {
             return {event:"landed-owned-prop", space: space};
         }

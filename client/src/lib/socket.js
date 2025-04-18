@@ -48,7 +48,7 @@ export const registerPlayerEvents = () => {
 
     const socket = useAuthStore.getState().socket;
     const setGame = useGameStore.getState().setGame;
-
+    const setYourMoney = useGameStore.getState().setYourMoney;
     const setIsYourTurn = useGameStore.getState().setIsYourTurn;
     const setOPP = useGameStore.getState().setOPP;
 
@@ -66,16 +66,25 @@ export const registerPlayerEvents = () => {
         toast.success(`Landed on ${res.space.name}`)
     });
     socket.on("landed-owned-prop", (res) => {
-        toast(`Landed on ${res.space.name} owned by ${res.space.owner}. Rent owed is ${res.space.base}`);
+        toast(`Landed on ${res.space.name} owned by ${res.space.owner.username}. Rent owed is ${res.space.base}`);
     });
     socket.on("landed-your-prop", (res) => {
         toast(`Landed on their own ${res.space.name}`);
     });
     socket.on("paid-rent", (res) => {
-        if (res.reciever.userId._id.toString() === user._id.toString()) 
-            toast.success(`${res.player.userId.username} paid you $${res.space.base}`);
+        if (res.reciever.userId._id.toString() === user._id.toString()){
+            setYourMoney(res.yourMoney);
+            toast.success(`${res.player.userId.username} paid you $${res.space.base}`); 
+        }
         else
             toast(`${res.player.userId.username} paid ${res.reciever.userId.username} $${res.space.base}`);
+
+        const otherPlayersProperties = res.otherPlayersProperties.filter((opp) => {
+            return opp.player.userId._id.toString() !== user._id.toString();
+        })
+
+        // console.log(otherPlayersProperties);
+        setOPP(otherPlayersProperties);
         setGame(res.game);
     });
     socket.on("player-turn", (res) => {
@@ -90,7 +99,7 @@ export const registerPlayerEvents = () => {
     });
     
     socket.on("end-turn", (res) => {
-        setIsYourTurn(false);
+        // setIsYourTurn(false);
         toast.success(`${res.username}'s turn ended`);
     });
 

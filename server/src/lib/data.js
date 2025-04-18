@@ -9,7 +9,7 @@ const boardData =
     },
     {
         id: 1,
-        name : "Old Kent Road",
+        name : "Old Kent Rd",
         color : "brown",
         price : 600,
         base: 20,
@@ -25,14 +25,14 @@ const boardData =
     },
     {
         id: 2,
-        name: "Community Chest",
+        name: "Community",
         comm: true,
         gridRow: 10,
         gridColumn: '1/3',
     },
     {
         id: 3,
-        name : "Whitechapel Road",
+        name : "Whitechapel Rd",
         color : "brown",
         price : 600,
         base: 20,
@@ -57,7 +57,7 @@ const boardData =
     },
     {
         id: 5,
-        name: "King Cross Station",
+        name: "King Cross Stn",
         // color : "black",
         price: 2000,
         base: 250,
@@ -71,7 +71,7 @@ const boardData =
     },
     {
         id: 6,
-        name : "The Angel Islington",
+        name : "The Angel Isl'n",
         color : "lightskyblue",
         price : 1000,
         base: 60,
@@ -95,7 +95,7 @@ const boardData =
     },
     {
         id: 8,
-        name : "Euston Road",
+        name : "Euston Rd",
         color : "lightskyblue",
         price : 1000,
         base: 60,
@@ -111,7 +111,7 @@ const boardData =
     },
     {
         id: 9,
-        name : "Pentonville Road",
+        name : "Pentonville Rd",
         color : "lightskyblue",
         price : 1200,
         base: 80,
@@ -150,7 +150,7 @@ const boardData =
     },
     {
         id: 12,
-        name : "Electric Company",
+        name : "ElectricS",
         // color: "z",
         base: 4,
         price : 1500,
@@ -195,7 +195,7 @@ const boardData =
     },
     {
         id: 15,
-        name: "Marleybone Station",
+        name: "Marleybone Stn",
         // color : "black",
         price: 2000,
         base: 250,
@@ -209,7 +209,7 @@ const boardData =
     },
     {
         id: 16,
-        name : "Bow Street",
+        name : "Bow St",
         color : "orange",
         price : 1800,
         base: 140,
@@ -225,14 +225,14 @@ const boardData =
     },
     {
         id: 17,
-        name: "Community Chest",
+        name: "Community",
         comm: true,
         gridRow: '1/3',
         gridColumn: '9',
     },
     {
         id: 18,
-        name : "Marlborough Street",
+        name : "Marlborough St",
         color : "orange",
         price : 1800,
         base: 140,
@@ -248,7 +248,7 @@ const boardData =
     },
     {
         id: 19,
-        name : "Vine Street",
+        name : "Vine St",
         color : "orange",
         price : 2000,
         base: 160,
@@ -294,7 +294,7 @@ const boardData =
     },
     {
         id: 23,
-        name : "Fleet Street",
+        name : "Fleet St",
         color : "red",
         price : 2200,
         base: 180,
@@ -310,7 +310,7 @@ const boardData =
     },
     {
         id: 24,
-        name : "Trafalgar Street",
+        name : "Trafalgar Sq",
         color : "red",
         price : 2400,
         base: 200,
@@ -326,7 +326,7 @@ const boardData =
     },
     {
         id: 25,
-        name: "Fenchurch Station",
+        name: "Fenchurch Stn",
         // color : "black",
         price: 2000,
         base: 250,
@@ -340,7 +340,7 @@ const boardData =
     },
     {
         id: 26,
-        name : "Leicester Square",
+        name : "Leicester Sq",
         color : "yellow",
         price : 2600,
         base: 220,
@@ -356,7 +356,7 @@ const boardData =
     },
     {
         id: 27,
-        name : "Coventry Street",
+        name : "Coventry St",
         color : "yellow",
         price : 2600,
         base: 220,
@@ -406,7 +406,7 @@ const boardData =
     },
     {
         id: 31,
-        name : "Regent Street",
+        name : "Regent St",
         color : "darkgreen",
         price : 3000,
         base: 260,
@@ -422,7 +422,7 @@ const boardData =
     },
     {
         id: 32,
-        name : "Oxford Street",
+        name : "Oxford St",
         color : "darkgreen",
         price : 3000,
         base: 260,
@@ -438,14 +438,14 @@ const boardData =
     },
     {
         id: 33,
-        name: "Community Chest",
+        name: "Community",
         comm: true,
         gridRow: "12/14",
         gridColumn: '9',
     },
     {
         id: 34,
-        name : "Bond Street",
+        name : "Bond St",
         color : "darkgreen",
         price : 3200,
         base: 280,
@@ -461,7 +461,7 @@ const boardData =
     },
     {
         id: 35,
-        name: "Liverpool Station",
+        name: "Liverpool Stn",
         // color : "black",
         price: 2000,
         base: 250,

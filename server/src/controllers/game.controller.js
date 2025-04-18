@@ -133,7 +133,7 @@ export const rollDice = async (req, res) => {
         const userId = req.user._id;
         const {code} = req.params;
         
-        const game = await Game.findOne({code}).populate("players.userId", "username");
+        const game = await Game.findOne({code}).populate("players.userId", "username").populate("boardState.owner", "username");
 
         if (!game)
             return res.status(404).json({message: "Game not found"});
@@ -286,7 +286,7 @@ export const buyProp = async (req, res) => {
     const {code} = req.params;
     
     try {
-        const game = await Game.findOne({code}).populate("players.userId", "username");
+        const game = await Game.findOne({code}).populate("players.userId", "username").populate("boardState.owner", "username");
 
         if (!game)
             return res.status(404).json({message: "Game not found"});
@@ -297,6 +297,9 @@ export const buyProp = async (req, res) => {
         let player = game.players[playerIndex];
         const property = game.boardState[player.position];
 
+        if (player.money < property.price) return res.status(400).json({message: "Insufficient Balance"});
+
+        player.money -= property.price;
         player.properties.push(player.position);
         property.owned = true;
         property.owner = userId;
@@ -305,7 +308,8 @@ export const buyProp = async (req, res) => {
 
         const updatedGame = await Game.findOne({ code })
         .populate("currentTurn", "username")
-        .populate("players.userId", "username");
+        .populate("players.userId", "username")
+        .populate("boardState.owner", "username");
 
         playerIndex = updatedGame.players.findIndex(
             (p) => p.userId._id.toString() === userId.toString() 
@@ -340,29 +344,54 @@ export const buyProp = async (req, res) => {
 }
 
 export const payRent = async (req, res) => {
+    console.log("paying");
+    console.log(req.user._id);
+    
     const userId = req.user._id;
     const {code} = req.params;
     const {recipient, space} = req.body;
+    console.log(recipient);
+    
     try {
         const game = await Game.findOne({code}).populate("players.userId", "username").populate("boardState.owner", "username");
         if (!game)
             return res.status(404).json({message: "Game not found"});
 
-        const player = game.players.find((player) => player.userId._id.toString() === userId.toString());
-        const reciever = game.players.find((player) => player.userId._id.toString() === recipient.userId._id.toString());
+        const playerIndex = game.players.findIndex((player) => player.userId._id.toString() === userId.toString());
+        const recieverIndex = game.players.findIndex((player) => player.userId._id.toString() === recipient._id.toString());
 
-        player.money -= space.base;
-        reciever.money += space.base;
+        game.players[playerIndex].money -= space.base;
+        game.players[recieverIndex].money += space.base;
 
         await game.save();
-        const updatedGame = await Game.findOne({code}).populate("players.userId", "username").populate("boardState.owner", "username");
+        const updatedGame = await Game.findOne({code}).populate("players.userId", "username").populate("boardState.owner");
+
+
+        const player =   updatedGame.players[playerIndex];
+        const reciever = updatedGame.players[recieverIndex];
+
+        const playerMoney = updatedGame.players[playerIndex].money;
+        const recieverMoney = updatedGame.players[recieverIndex].money;
+
+        const otherPlayersProperties = [];
+        updatedGame.players.forEach((p) => {
+
+            // if (p === player) return;
+
+            const yourProperties = updatedGame.boardState.filter((prop) => {
+                return p.properties.includes(prop.id);
+            });
+            otherPlayersProperties.push({player : p, properties: yourProperties});
+        });
 
         const socket = getSocket(userId);
-        socket.to(code).emit("paid-rent", ({player: player, reciever: reciever, space: space, updatedGame: updatedGame}));
+        socket.to(code).emit("paid-rent", ({player: player, reciever: reciever, space: space, game: updatedGame, yourMoney: recieverMoney, otherPlayersProperties }));
 
-        res.status(200).json({message: `Rent Paid Successfully to ${reciever.userId.username}`, game: updatedGame});
+        const oPP = otherPlayersProperties.filter((opp) => opp.player.userId._id.toString() !== userId.toString());
+        res.status(200).json({message: `Rent Paid Successfully to ${reciever.userId.username}`, game: updatedGame, yourMoney: playerMoney, otherPlayersProperties: oPP });
     } catch (error) {
-        
+        console.log(error);
+        res.status(500).json({message:"Error Paying Rent"});
     }
     
 }

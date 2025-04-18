@@ -1,9 +1,9 @@
 import { useGameStore } from "../store/gameStore";
 const PayRentPrompt = ({ space  }) => {
-    const {game, pay} = useGameStore();
+    const {game, pay, landedOn} = useGameStore();
     
 
-    const handlePay = async () =>  { await pay(game?.code) };
+    const handlePay = async () =>  { await pay(game?.code, landedOn.owner, landedOn) };
     if (!space) return null;
 
     return (
@@ -18,7 +18,7 @@ const PayRentPrompt = ({ space  }) => {
                     <>
                         <p className="text-lg text-gray-800 mb-6">
                             Pay Rent
-                            <span className="font-bold"> ${space.price}</span>
+                            <span className="font-bold"> ${space.base}</span>
                         </p>
 
                         <div className="flex flex-col sm:flex-row justify-center gap-4">

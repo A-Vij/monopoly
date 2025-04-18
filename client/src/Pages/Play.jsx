@@ -11,6 +11,7 @@ import YourOwnPrompt from "../Components/YourOwnPrompt";
 
 const Play = () => {
     const game = useGameStore((state) => state.game);
+    const yourMoney = useGameStore((state) => state.yourMoney);
     const landedOn = useGameStore((state) => state.landedOn);
     const yourProperties = useGameStore((state) => state.yourProperties);
     const oPP = useGameStore((state) => state.oPP);
@@ -35,7 +36,7 @@ const Play = () => {
         <div className="w-screen h-screen flex flex-col md:flex-row">
             {/* Left Hand (Top on small screens) */}
             <div className="w-full md:w-[25%] flex justify-center items-start p-2">
-                <Hand owned={yourProperties} />
+                <Hand owned={yourProperties} money={yourMoney} />
             </div>
     
             {/* Board (Middle) */}
@@ -43,7 +44,7 @@ const Play = () => {
                 <MonopolyBoard boardData={game?.boardState}>
                     {!rolled &&  (
                         <button
-                            className="z-30 border cursor-pointer"
+                            className="z-30 border cursor-pointer text-[8px]"
                             style={{ gridColumn: "7", gridRow: "10" }}
                             disabled={!isYourTurn}
                             onClick={handleClick}
@@ -53,7 +54,7 @@ const Play = () => {
                     )}
                     {rolled && (
                         <button
-                            className="z-30 border cursor-pointer"
+                            className="z-30 border cursor-pointer text-[8px]"
                             style={{ gridColumn: "7", gridRow: "10" }}
                             disabled={!isYourTurn}
                             onClick={handleEnd}

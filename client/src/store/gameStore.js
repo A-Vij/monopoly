@@ -1,10 +1,11 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
-import { useAuthStore } from "./authStore";
+
 
 export const useGameStore = create((set) => ({
     game: null,
+    yourMoney: 0,
     yourProperties: [],
     oPP: [], 
     landedOn: null,
@@ -88,7 +89,7 @@ export const useGameStore = create((set) => ({
     end: async (code) => {
         try {
             const res = await axiosInstance.post(`/game/${code}/endTurn`);
-            set({isYourTurn: false, rolled: false});
+            set({isYourTurn: false, rolled: false, landedOn: null});
             toast.success(res.data.message);
         } catch (error) {
             toast.error(error.response.data.message);
@@ -99,27 +100,29 @@ export const useGameStore = create((set) => ({
         try {
             const res = await axiosInstance.post(`/game/${code}/buy`);
             console.log(res.data.yourProperties);
-            set({game: res.data.game, isBuying: false, landedOn: null});
-            set({yourProperties: res.data.yourProperties});
+            set({game: res.data.game, isBuying: false});
+            set({yourProperties: res.data.yourProperties, yourMoney: res.data.yourMoney});
             toast.success(res.data.message);
         } catch (error) {
             toast.error(error.response.data.message);
         }
 
     },
-    pay: async (code) => {
+    pay: async (code, recipient, space) => {
         try {
-            const res = await axiosInstance.post(`/game/${code}/pay`, {recipient: landedOn.owner, space: landedOn});
-            set({game: res.data.game, isPaying: false});
+            const res = await axiosInstance.post(`/game/${code}/pay`, {recipient, space});
+            set({game: res.data.game, isPaying: false, yourMoney: res.data.yourMoney});
             toast(`${res.data.message}`)
             // console.log(res.data.)
         } catch (error) {
-            
+            console.log(error.message);
+            toast.error(error.response.data.message);
         }
     },
     setIsYourTurn: (isYourTurn) => set({isYourTurn}),
     setLandedOn: (landedOn) => set({landedOn}),
     setIsBuying: (isBuying) => set({isBuying}),
+    setYourMoney: (yourMoney) => set({yourMoney}),
     setOPP: (oPP) => {set({oPP}); console.log(oPP)},
     setGame: (game) => set({game}),
 }));

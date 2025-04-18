@@ -24,7 +24,7 @@ const App = () => {
   const location = useLocation();
   // console.log(location);
   
-  const bgPages = ["/signup", "/login", "/create", "/join", "/join", "/lobby", "/"];
+  const bgPages = ["/signup", "/login", "/create", "/join", "/join", "/lobby", "/", "test"];
   useEffect(()=>{
     checkAuth();
     console.log(authUser);

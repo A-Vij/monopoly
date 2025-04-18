@@ -1,9 +1,9 @@
 import { useGameStore } from "../store/gameStore";
 
 const YourOwnPrompt = ({ space  }) => {
-    const {game, pass} = useGameStore();
+    const {game, pass, landedOn} = useGameStore();
 
-    const handlePass = async () =>  { await pass(game?.code) };
+    const handlePass = async () =>  { await pass(game?.code, landedOn.owner) };
     if (!space) return null;
 
     return (

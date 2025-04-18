@@ -11,6 +11,7 @@ function Row({ spaces, range }) {
                 price={space?.price}
                 gridRow={space?.gridRow}
                 gridCol={space?.gridColumn}
+                rotate = {space?.rotate}
             />
         ));
 }
